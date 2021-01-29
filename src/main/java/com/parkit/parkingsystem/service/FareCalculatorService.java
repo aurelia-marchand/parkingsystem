@@ -10,11 +10,16 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
 
-        int inHour = ticket.getInTime().getHours();
-        int outHour = ticket.getOutTime().getHours();
+     // change int to double et getHours to getTime / 36000000.000 pour conversion
+     		// heure.00
+     		// essayer classe BigDecimal
+     		// int inHour = ticket.getInTime().getHours();
+     		// int outHour = ticket.getOutTime().getHours();
+     		double inHour = (ticket.getInTime().getTime()) / 3600000.0;
+     		double outHour = (ticket.getOutTime().getTime()) / 3600000.0;
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
-        int duration = outHour - inHour;
+     		// TODO: Some tests are failing here. Need to check if this logic is correct
+     		double duration = outHour - inHour;
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
