@@ -88,4 +88,24 @@ public class TicketDAO {
         }
         return false;
     }
+    
+    public boolean getOldTicket(String vehicleRegNumber) {
+		Connection con = null;
+		try {
+			con = dataBaseConfig.getConnection();
+			PreparedStatement ps = con.prepareStatement(DBConstants.GET_OLD_TICKET);
+			ps.setString(1, vehicleRegNumber);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception ex) {
+			logger.error("Error get old ticket", ex);
+			return false;
+		} finally {
+			dataBaseConfig.closeConnection(con);
+		}
+	}
 }
