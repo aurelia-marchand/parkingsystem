@@ -3,6 +3,8 @@ package com.parkit.parkingsystem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +21,9 @@ public class FareCalculatorServiceTest {
 
   private static FareCalculatorService fareCalculatorService;
   private Ticket ticket;
+  private BigDecimal fortyFiveMinutesTimes = new BigDecimal("0.75");
+  private BigDecimal oneDay = new BigDecimal("24");
+  private BigDecimal free = new BigDecimal("0");
 
   @BeforeAll
   private static void setUp() {
@@ -34,7 +39,10 @@ public class FareCalculatorServiceTest {
   public void calculateFareCar() {
     Date inTime = new Date();
     inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+    
     Date outTime = new Date();
+    
+
     ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
     Boolean recurrent = false;
 
@@ -43,7 +51,7 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals(ticket.getPrice(), Fare.CAR_RATE_PER_HOUR);
+    assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
   }
 
   @Test
@@ -59,7 +67,7 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
+    assertEquals(Fare.BIKE_RATE_PER_HOUR, ticket.getPrice());
   }
 
   @Test
@@ -100,13 +108,18 @@ public class FareCalculatorServiceTest {
     Date outTime = new Date();
     ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
     Boolean recurrent = false;
+    
+   System.out.println("calculatefarcar : " + inTime);
+   System.out.println("calculatefarcar in time : " + inTime.getTime());
+   System.out.println("calculatefarcar out time : " + outTime.getTime());
+
 
     ticket.setInTime(inTime);
     ticket.setOutTime(outTime);
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
+    assertEquals((Fare.BIKE_RATE_PER_HOUR.multiply(fortyFiveMinutesTimes).setScale(2, RoundingMode.HALF_EVEN)), ticket.getPrice());
   }
 
   @Test
@@ -123,7 +136,9 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals((0.75 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+        
+    
+    assertEquals(Fare.CAR_RATE_PER_HOUR.multiply(fortyFiveMinutesTimes).setScale(2, RoundingMode.HALF_EVEN), ticket.getPrice());
   }
 
   @Test
@@ -134,13 +149,14 @@ public class FareCalculatorServiceTest {
     Date outTime = new Date();
     ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
     Boolean recurrent = false;
+    
 
     ticket.setInTime(inTime);
     ticket.setOutTime(outTime);
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals((24 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+    assertEquals((Fare.CAR_RATE_PER_HOUR.multiply(oneDay).setScale(2, RoundingMode.HALF_EVEN)), ticket.getPrice());
   }
 
   // test calculateFareCar et BikeWithLessThan30MinParkingTime
@@ -158,7 +174,7 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals(0, ticket.getPrice());
+    assertEquals(free.setScale(2, RoundingMode.HALF_EVEN), ticket.getPrice());
   }
 
   @Test
@@ -175,7 +191,10 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(recurrent);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals(0, ticket.getPrice());
+    System.out.println("free : " + free + "car " + "  ticket prix : "+ ticket.getPrice());
+    assertEquals(free.setScale(2, RoundingMode.HALF_EVEN), ticket.getPrice());
+    
+
   }
 
   // tests calculer prix avec reduction utilisateurs recurrent
@@ -193,13 +212,13 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(ticketOld);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals((Fare.BIKE_RATE_PER_HOUR) * 0.95, ticket.getPrice());
+    assertEquals((Fare.BIKE_RATE_PER_HOUR.multiply(Fare.REDUCTION_FIVE_POURCENT).setScale(2, RoundingMode.HALF_EVEN)), ticket.getPrice());
   }
 
   @Test
   public void calculateFareCarRecurrent() {
     Date inTime = new Date();
-    inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+    inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
 
     Date outTime = new Date();
     ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -210,7 +229,7 @@ public class FareCalculatorServiceTest {
     ticket.setParkingSpot(parkingSpot);
     ticket.setRecurrent(ticketOld);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals((24 * Fare.CAR_RATE_PER_HOUR) * 0.95, ticket.getPrice());
+    assertEquals(Fare.CAR_RATE_PER_HOUR.multiply(Fare.REDUCTION_FIVE_POURCENT).setScale(2, RoundingMode.HALF_EVEN), ticket.getPrice());
   }
 
 }

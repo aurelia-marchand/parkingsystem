@@ -1,13 +1,14 @@
 package com.parkit.parkingsystem.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Ticket {
   private int id;
   private ParkingSpot parkingSpot;
   private String vehicleRegNumber;
-  private double price;
-  private Date inTime;
+  private BigDecimal price;
+  private  Date inTime;
   private Date outTime;
   private Boolean recurrent;
 
@@ -35,11 +36,11 @@ public class Ticket {
     this.vehicleRegNumber = vehicleRegNumber;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
-  public void setPrice(double price) {
+  public void setPrice(BigDecimal price) {
     this.price = price;
   }
 

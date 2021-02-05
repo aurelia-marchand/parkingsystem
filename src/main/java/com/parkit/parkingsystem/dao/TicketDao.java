@@ -30,7 +30,7 @@ public class TicketDao {
       // ps.setInt(1,ticket.getId());
       ps.setInt(1, ticket.getParkingSpot().getId());
       ps.setString(2, ticket.getVehicleRegNumber());
-      ps.setDouble(3, ticket.getPrice());
+      ps.setBigDecimal(3, ticket.getPrice());
       ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
       ps.setTimestamp(5,
           (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
@@ -64,7 +64,7 @@ public class TicketDao {
         ticket.setParkingSpot(parkingSpot);
         ticket.setId(rs.getInt(2));
         ticket.setVehicleRegNumber(vehicleRegNumber);
-        ticket.setPrice(rs.getDouble(3));
+        ticket.setPrice(rs.getBigDecimal(3));
         ticket.setInTime(rs.getTimestamp(4));
         ticket.setOutTime(rs.getTimestamp(5));
         ticket.setRecurrent(rs.getBoolean(7));
@@ -86,7 +86,7 @@ public class TicketDao {
     try {
       con = dataBaseConfig.getConnection();
       ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
-      ps.setDouble(1, ticket.getPrice());
+      ps.setBigDecimal(1, ticket.getPrice());
       ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
       ps.setInt(3, ticket.getId());
       ps.execute();
@@ -142,7 +142,7 @@ public class TicketDao {
         ticket.setParkingSpot(parkingSpot);
         ticket.setId(rs.getInt(2));
         ticket.setVehicleRegNumber(vehicleRegNumber);
-        ticket.setPrice(rs.getDouble(3));
+        ticket.setPrice(rs.getBigDecimal(3));
         ticket.setInTime(rs.getTimestamp(4));
         ticket.setOutTime(rs.getTimestamp(5));
       }

@@ -3,6 +3,7 @@ package com.parkit.parkingsystem.integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.jupiter.api.AfterAll;
@@ -30,9 +31,12 @@ public class ParkingDataBaseIT {
   private static ParkingSpotDao parkingSpotDAO;
   private static TicketDao ticketDAO;
   private static DataBasePrepareService dataBasePrepareService;
+  //private static Ticket ticket;
 
   @Mock
   private static InputReaderUtil inputReaderUtil;
+  
+
 
   @BeforeAll
   private static void setUp() throws Exception {
@@ -41,6 +45,8 @@ public class ParkingDataBaseIT {
     ticketDAO = new TicketDao();
     ticketDAO.dataBaseConfig = dataBaseTestConfig;
     dataBasePrepareService = new DataBasePrepareService();
+    
+
 
   }
 
@@ -48,6 +54,9 @@ public class ParkingDataBaseIT {
   private void setUpPerTest() throws Exception {
     when(inputReaderUtil.readSelection()).thenReturn(1);
     when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+    
+    //Mockito.doReturn(new Date(System.currentTimeMillis() - (3*60 * 60 * 1000))).when(ticket.setOutTime());
+    
 
     parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
   }
@@ -57,14 +66,17 @@ public class ParkingDataBaseIT {
     dataBasePrepareService.clearDataBaseEntries();
   }
 
+
   @Test
   public void testParkingACar() {
     parkingService.processIncomingVehicle();
     // check that a ticket is actualy saved in DB and Parking table is updated
     // with availability
+    // j'utilise la méthode créer pour savoir si un utilisateur est déjà venu, me renvoi true si le
+    // ticket existe et donc cela veut dire qu'il est bien enregistré
     assertThat(ticketDAO.getOldTicket("ABCDEF")).isTrue();
+    // je récupère le ticket et la place de parking pour vérifier que la place est bien passée à false
     Ticket ticket = ticketDAO.getTicket("ABCDEF");
-    System.out.println("ticket11 : " + ticket);
     ParkingSpot parkingSpot = ticket.getParkingSpot();
     assertThat(parkingSpot.isAvailable()).isFalse();
 
@@ -73,14 +85,18 @@ public class ParkingDataBaseIT {
   @Test
   public void testParkingLotExit() throws InterruptedException {
     parkingService.processIncomingVehicle();
-    Thread.sleep(2000);
+    
+    //when(ticket.getOutTime().getTime()).thenReturn(System.currentTimeMillis() + (3*60 * 60 * 1000));
+    //ticket.setInTime(new Date(System.currentTimeMillis() - (3*60 * 60 * 1000)));
     parkingService.processExitingVehicle();
+    
     // check that the fare generated and out time are populated correctly in
     // the database
     Ticket ticket = ticketDAO.getCompletTicket("ABCDEF");
-    double price = ticket.getPrice();
+    BigDecimal price = ticket.getPrice();
     Date outTime = ticket.getOutTime();
-
+    // problème, le test est trop court et le prix reste à 0
+    // problème : assertion compare primitives with null
     assertThat(price).isNotNull();
     assertThat(outTime).isNotNull();
 

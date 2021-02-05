@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.service;
 
+import java.math.RoundingMode;
 import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
@@ -55,7 +56,7 @@ public class ParkingService {
         // ticket.setId(ticketID);
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber(vehicleRegNumber);
-        ticket.setPrice(0);
+        ticket.setPrice(null);
         ticket.setInTime(inTime);
         ticket.setOutTime(null);
         ticketDAO.saveTicket(ticket);
@@ -119,7 +120,7 @@ public class ParkingService {
     try {
       String vehicleRegNumber = getVehichleRegNumber();
       Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-      Date outTime = new Date();
+      Date outTime = new Date(System.currentTimeMillis() + (1000));
       ticket.setOutTime(outTime);
 
       fareCalculatorService.calculateFare(ticket);
@@ -127,7 +128,7 @@ public class ParkingService {
         ParkingSpot parkingSpot = ticket.getParkingSpot();
         parkingSpot.setAvailable(true);
         parkingSpotDAO.updateParking(parkingSpot);
-        System.out.println("Please pay the parking fare:" + ticket.getPrice());
+        System.out.println("Please pay the parking fare:" + ticket.getPrice().setScale(2, RoundingMode.HALF_EVEN));
         System.out.println(
             "Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber()
                 + " is:"
