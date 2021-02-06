@@ -23,6 +23,14 @@ public class ParkingService {
   private ParkingSpotDao parkingSpotDAO;
   private TicketDao ticketDAO;
 
+  /**
+   * Builder.
+   * 
+   * @param inputReaderUtil
+   * 
+   * @param parkingSpotDAO
+   * @param ticketDAO
+   */
   public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDao parkingSpotDAO,
       TicketDao ticketDAO) {
     this.inputReaderUtil = inputReaderUtil;
@@ -30,6 +38,9 @@ public class ParkingService {
     this.ticketDAO = ticketDAO;
   }
 
+  /**
+   * Choice 1 when incoming vehicle.
+   */
   public void processIncomingVehicle() {
     try {
       ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -42,7 +53,7 @@ public class ParkingService {
 
         Date inTime = new Date();
         Ticket ticket = new Ticket();
-        // test si vehicule déjà venu
+        // Test si vehicule déjà venu pour définir utilisateurs récurrent
         boolean ticketOld = ticketDAO.getOldTicket(vehicleRegNumber);
         if (ticketOld) {
           ticket.setRecurrent(true);
@@ -51,9 +62,9 @@ public class ParkingService {
         } else {
           ticket.setRecurrent(false);
         }
-       
+
+        // SQL order
         // ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-        // ticket.setId(ticketID);
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber(vehicleRegNumber);
         ticket.setPrice(null);
@@ -77,6 +88,12 @@ public class ParkingService {
     return inputReaderUtil.readVehicleRegistrationNumber();
   }
 
+  /**
+   * Returns the parking spot number.
+   * 
+   * @return parkingSpot
+   * 
+   */
   public ParkingSpot getNextParkingNumberIfAvailable() {
     int parkingNumber = 0;
     ParkingSpot parkingSpot = null;
@@ -116,6 +133,9 @@ public class ParkingService {
     }
   }
 
+  /**
+   * Vehicle exit process.
+   */
   public void processExitingVehicle() {
     try {
       String vehicleRegNumber = getVehichleRegNumber();
@@ -128,7 +148,8 @@ public class ParkingService {
         ParkingSpot parkingSpot = ticket.getParkingSpot();
         parkingSpot.setAvailable(true);
         parkingSpotDAO.updateParking(parkingSpot);
-        System.out.println("Please pay the parking fare:" + ticket.getPrice().setScale(2, RoundingMode.HALF_EVEN));
+        System.out.println(
+            "Please pay the parking fare:" + ticket.getPrice().setScale(2, RoundingMode.HALF_EVEN));
         System.out.println(
             "Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber()
                 + " is:"

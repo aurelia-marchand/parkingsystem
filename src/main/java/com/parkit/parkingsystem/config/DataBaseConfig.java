@@ -16,11 +16,17 @@ public class DataBaseConfig {
   private String user = "root";
   private String password = "rootroot";
 
+  /**
+   * 
+   * @return
+   * @throws ClassNotFoundException
+   * @throws SQLException
+   */
   public Connection getConnection() throws ClassNotFoundException, SQLException {
     logger.info("Create DB connection");
     Class.forName("com.mysql.cj.jdbc.Driver");
-    
-    return DriverManager.getConnection(url, user , password);
+
+    return DriverManager.getConnection(url, user, password);
   }
 
   public void closeConnection(Connection con) {

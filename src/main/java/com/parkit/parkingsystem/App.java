@@ -8,7 +8,12 @@ import com.parkit.parkingsystem.service.InteractiveShell;
 
 
 
-
+/**
+ * 
+ * Application for parking management
+ * @author aurel
+ *
+ */
 public class App {
   private static final Logger logger = LogManager.getLogger("App");
 

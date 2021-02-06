@@ -20,6 +20,13 @@ public class TicketDao {
 
   public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+  /**
+   * 
+   * Save ticket in first time
+   * 
+   * @param ticket ticket with spot number, vehicle registration number, price, in time, out time
+   * @return boolean
+   */
   public boolean saveTicket(Ticket ticket) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -46,6 +53,13 @@ public class TicketDao {
     }
   }
 
+  /**
+   * 
+   * Get ticket before exiting
+   * 
+   * @param vehicleRegNumber
+   * @return ticket
+   */
   public Ticket getTicket(String vehicleRegNumber) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -80,6 +94,13 @@ public class TicketDao {
     return ticket;
   }
 
+  /**
+   * 
+   * Check existing ticket
+   * 
+   * @param ticket
+   * @return true if exist
+   */
   public boolean updateTicket(Ticket ticket) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -100,6 +121,15 @@ public class TicketDao {
     return false;
   }
 
+  /**
+   * 
+   * Check old ticket for calculate recurrent user
+   * 
+   * @param vehicleRegNumber
+   * @return boolean true if recurrent
+   * 
+   * @see ParkingService.processIncomingVehicle()
+   */
   public boolean getOldTicket(String vehicleRegNumber) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -124,6 +154,11 @@ public class TicketDao {
     }
   }
 
+  /**
+   * 
+   * @param vehicleRegNumber
+   * @return complete ticket with all information needed for testing
+   */
   public Ticket getCompletTicket(String vehicleRegNumber) {
     Connection con = null;
     PreparedStatement ps = null;
