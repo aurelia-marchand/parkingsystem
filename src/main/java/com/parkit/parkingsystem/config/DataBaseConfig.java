@@ -17,10 +17,13 @@ public class DataBaseConfig {
   private String password = "rootroot";
 
   /**
+   * Connection to the DataBase
    * 
-   * @return
-   * @throws ClassNotFoundException
-   * @throws SQLException
+   * @return a connection to the URL
+   * @throws ClassNotFoundException - when no definition of the class with the
+   *                                specified name could be found
+   * @throws SQLException           - if a database access error occurs or the url
+   *                                is null
    */
   public Connection getConnection() throws ClassNotFoundException, SQLException {
     logger.info("Create DB connection");
@@ -29,6 +32,11 @@ public class DataBaseConfig {
     return DriverManager.getConnection(url, user, password);
   }
 
+  /**
+   * Close connection to the DataBase
+   * 
+   * @param con
+   */
   public void closeConnection(Connection con) {
     if (con != null) {
       try {
@@ -40,6 +48,11 @@ public class DataBaseConfig {
     }
   }
 
+  /**
+   * Close prepared Statement
+   * 
+   * @param ps
+   */
   public void closePreparedStatement(PreparedStatement ps) {
     if (ps != null) {
       try {
@@ -51,6 +64,11 @@ public class DataBaseConfig {
     }
   }
 
+  /**
+   * Close Result Set
+   * 
+   * @param rs
+   */
   public void closeResultSet(ResultSet rs) {
     if (rs != null) {
       try {

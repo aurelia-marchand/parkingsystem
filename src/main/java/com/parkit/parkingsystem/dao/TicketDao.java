@@ -24,8 +24,11 @@ public class TicketDao {
    * 
    * Save ticket in first time
    * 
-   * @param ticket ticket with spot number, vehicle registration number, price, in time, out time
+   * @param ticket ticket with spot number, vehicle registration number, price, in
+   *               time, out time
    * @return boolean
+   * 
+   * @see com.parkit.parkingsystem.service.ParkingService#processIncomingVehicle()
    */
   public boolean saveTicket(Ticket ticket) {
     Connection con = null;
@@ -59,6 +62,8 @@ public class TicketDao {
    * 
    * @param vehicleRegNumber
    * @return ticket
+   * 
+   * @see com.parkit.parkingsystem.service.ParkingService#processExitingVehicle()
    */
   public Ticket getTicket(String vehicleRegNumber) {
     Connection con = null;
@@ -96,10 +101,12 @@ public class TicketDao {
 
   /**
    * 
-   * Check existing ticket
+   * Check existing ticket and update price, out time
    * 
    * @param ticket
-   * @return true if exist
+   * @return true if exist and update ok
+   * 
+   * @see com.parkit.parkingsystem.service.ParkingService#processExitingVehicle()
    */
   public boolean updateTicket(Ticket ticket) {
     Connection con = null;
@@ -128,7 +135,7 @@ public class TicketDao {
    * @param vehicleRegNumber
    * @return boolean true if recurrent
    * 
-   * @see ParkingService.processIncomingVehicle()
+   * @see com.parkit.parkingsystem.service.ParkingService#processIncomingVehicle()
    */
   public boolean getOldTicket(String vehicleRegNumber) {
     Connection con = null;
@@ -155,6 +162,7 @@ public class TicketDao {
   }
 
   /**
+   * Method to get the full ticket for testing
    * 
    * @param vehicleRegNumber
    * @return complete ticket with all information needed for testing
@@ -182,7 +190,7 @@ public class TicketDao {
         ticket.setOutTime(rs.getTimestamp(5));
       }
     } catch (Exception ex) {
-      logger.error("Error fetching next available slot", ex);
+      logger.error("Error fetching complet ticket", ex);
     } finally {
       dataBaseConfig.closeResultSet(rs);
       dataBaseConfig.closePreparedStatement(ps);

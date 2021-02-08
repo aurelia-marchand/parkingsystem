@@ -5,12 +5,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.parkit.parkingsystem.service.InteractiveShell;
 
-
-
-
 /**
  * 
  * Application for parking management
+ * 
  * @author aurel
  *
  */

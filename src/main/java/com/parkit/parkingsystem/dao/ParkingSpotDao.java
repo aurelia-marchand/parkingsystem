@@ -23,7 +23,8 @@ public class ParkingSpotDao {
    * @param parkingType Car or Bike
    * @return parking spot number
    * 
-   * @see getNextParkingNumberIfAvailable()
+   * @see com.parkit.parkingsystem.service.ParkingService#getNextParkingNumberIfAvailable()
+   * 
    *
    */
   public int getNextAvailableSlot(ParkingType parkingType) {
@@ -52,14 +53,14 @@ public class ParkingSpotDao {
   }
 
   /**
-   * Update the availability fo that parking slot
+   * Update the availability of that parking slot
    * 
    * @param parkingSpot parking spot number
    * 
-   *
+   * @see com.parkit.parkingsystem.service.ParkingService#processIncomingVehicle()
+   * @see com.parkit.parkingsystem.service.ParkingService#processExitingVehicle()
    */
   public boolean updateParking(ParkingSpot parkingSpot) {
-    // 
     Connection con = null;
     PreparedStatement ps = null;
     try {

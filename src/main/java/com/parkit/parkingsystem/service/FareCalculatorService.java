@@ -13,35 +13,42 @@ public class FareCalculatorService {
    * 
    * @param ticket
    * 
+   * @see com.parkit.parkingsystem.service.ParkingService#processExitingVehicle()
+   * 
    */
   public void calculateFare(Ticket ticket) {
 
-    // On vérifie que l'heure de sortie du véhicule n'est pas null et n'est pas
-    // inférieure à l'heure d'entrée
+    // Check that the vehicle exit time is not null and is not less than the
+    // entry time
     if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
       throw new IllegalArgumentException(
           "Out time provided is incorrect:" + ticket.getOutTime().toString());
     }
-    // On convertit en heures
+
+    // Convert into hours
     double inHour = (ticket.getInTime().getTime()) / 3600000.0;
     double outHour = (ticket.getOutTime().getTime()) / 3600000.0;
-    // On calcule la différence afin d'obtenir la durée
+
+    // Calculate the difference in order to obtain the duration
     double duree = (outHour - inHour);
-    // On convertit notre double en bigDecimal pour la suite des calculs monétaires
+
+    // Convert double into bigDecimal for the rest of the monetary calculations
     BigDecimal duration = new BigDecimal(duree);
+
     // On crée une variable représentant la limite d'une demi-heure gratuite
     BigDecimal demiHeure = new BigDecimal("0.5");
-    // On test si l'utilisateur est resté moins de 30 minutes
-    int test = duration.compareTo(demiHeure);
 
-    // Si notre test == -1 c'est que la durée était bien inférieure à 30 minutes
-    // Le Fare.FREE_FARE nous renverra donc un prix à 0 car multiplié par 0
-    if (test == -1) {
+    // Test if the user stayed less than 30 minutes
+    int limiteDemiHeure = duration.compareTo(demiHeure);
+
+    // If test == -1 it means that the duration was much less than 30 minutes
+    if (limiteDemiHeure == -1) {
       duration = Fare.FREE_FARE;
     }
 
-    // On test si la méthode getRecurrent nous revient à true et si oui
-    // l'utilisateur bénéficie de la réduction
+    // Test if the getRecurrent method returns to true and if so the user
+    // benefits from the reduction otherwise the calculation of the normal price is
+    // performed
     switch (ticket.getParkingSpot().getParkingType()) {
       case CAR: {
         if (ticket.getRecurrent()) {

@@ -39,7 +39,7 @@ public class ParkingService {
   }
 
   /**
-   * Choice 1 when incoming vehicle.
+   * Choice 1 - when incoming vehicle.
    */
   public void processIncomingVehicle() {
     try {
@@ -53,7 +53,8 @@ public class ParkingService {
 
         Date inTime = new Date();
         Ticket ticket = new Ticket();
-        // Test si vehicule déjà venu pour définir utilisateurs récurrent
+
+        // Test if vehicle has already come to define recurring users
         boolean ticketOld = ticketDAO.getOldTicket(vehicleRegNumber);
         if (ticketOld) {
           ticket.setRecurrent(true);
@@ -134,7 +135,7 @@ public class ParkingService {
   }
 
   /**
-   * Vehicle exit process.
+   * Choice 2 - Vehicle exit process.
    */
   public void processExitingVehicle() {
     try {
