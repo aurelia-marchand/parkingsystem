@@ -35,7 +35,7 @@ public class FareCalculatorService {
     // Convert double into bigDecimal for the rest of the monetary calculations
     BigDecimal duration = new BigDecimal(duree);
 
-    // On crée une variable représentant la limite d'une demi-heure gratuite
+    // Create a variable representing the limit of a free half hour
     BigDecimal demiHeure = new BigDecimal("0.5");
 
     // Test if the user stayed less than 30 minutes

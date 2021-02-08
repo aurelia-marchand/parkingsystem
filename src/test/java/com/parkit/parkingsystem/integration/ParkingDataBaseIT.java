@@ -44,15 +44,14 @@ public class ParkingDataBaseIT {
     parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
     ticketDAO = new TicketDao();
     ticketDAO.dataBaseConfig = dataBaseTestConfig;
-    dataBasePrepareService = new DataBasePrepareService();
-
+    
   }
 
   @BeforeEach
   private void setUpPerTest() throws Exception {
     when(inputReaderUtil.readSelection()).thenReturn(1);
     when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-
+    dataBasePrepareService = new DataBasePrepareService();
     parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
   }
 
@@ -66,22 +65,15 @@ public class ParkingDataBaseIT {
     parkingService.processIncomingVehicle();
     // check that a ticket is actualy saved in DB and Parking table is updated
     // with availability
-    // j'utilise la méthode crée précedemment pour savoir si un utilisateur est déjà
-    // venu, me renvoi true si le
-    // ticket existe et donc cela veut dire qu'il est bien enregistré
     assertThat(ticketDAO.getOldTicket("ABCDEF")).isTrue();
-    // je récupère le ticket et la place de parking pour vérifier que la place est
-    // bien passée à false
     Ticket ticket = ticketDAO.getTicket("ABCDEF");
     ParkingSpot parkingSpot = ticket.getParkingSpot();
     assertThat(parkingSpot.isAvailable()).isFalse();
-
   }
 
   @Test
   public void testParkingLotExit() {
     parkingService.processIncomingVehicle();
-
     parkingService.processExitingVehicle();
 
     // check that the fare generated and out time are populated correctly in
@@ -97,7 +89,6 @@ public class ParkingDataBaseIT {
 
   @Test
   public void testRecurrentUserInDataBase() {
-
     // ARRANGE
     // first time
     parkingService.processIncomingVehicle();
@@ -115,7 +106,6 @@ public class ParkingDataBaseIT {
 
   @Test
   public void testFreePriceInDataBase() {
-
     // ARRANGE
     parkingService.processIncomingVehicle();
     parkingService.processExitingVehicle();
