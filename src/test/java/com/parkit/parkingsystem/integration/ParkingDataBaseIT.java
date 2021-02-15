@@ -114,6 +114,7 @@ public class ParkingDataBaseIT {
     Ticket ticket = ticketDAO.getCompletTicket("ABCDEF");
 
     // ASSERT
+    // free_fare car durée inférieure à 30min
     assertEquals(Fare.FREE_FARE, ticket.getPrice().setScale(2, RoundingMode.HALF_EVEN));
   }
 

@@ -8,7 +8,7 @@ public class Ticket {
   private ParkingSpot parkingSpot;
   private String vehicleRegNumber;
   private BigDecimal price;
-  private  Date inTime;
+  private Date inTime;
   private Date outTime;
   private Boolean recurrent;
 

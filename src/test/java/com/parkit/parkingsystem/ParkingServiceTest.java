@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -57,12 +58,14 @@ public class ParkingServiceTest {
     }
   }
   
- 
 
   @Test
-  public void processExitingVehicleTest() {
+  public void processExitingVehicleAndParkingSpotUpdateAvailabilityTrueTest() {
     parkingService.processExitingVehicle();
     verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+    
+    assertEquals(true, ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable());
+    
   }
 
 }

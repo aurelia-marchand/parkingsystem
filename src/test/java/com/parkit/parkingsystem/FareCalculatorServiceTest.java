@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.parkit.parkingsystem.constants.Fare;
@@ -35,6 +36,7 @@ public class FareCalculatorServiceTest {
     ticket = new Ticket();
   }
 
+  @DisplayName("Calculate Fare Car One Hour")
   @Test
   public void calculateFareCar() {
     Date inTime = new Date();
@@ -53,6 +55,7 @@ public class FareCalculatorServiceTest {
     assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
   }
 
+  @DisplayName("Calculate Fare Bike One Hour")
   @Test
   public void calculateFareBike() {
     Date inTime = new Date();
@@ -69,8 +72,9 @@ public class FareCalculatorServiceTest {
     assertEquals(Fare.BIKE_RATE_PER_HOUR, ticket.getPrice());
   }
 
+  @DisplayName("Calculate Fare Unknown Type")
   @Test
-  public void calculateFareUnkownType() {
+  public void calculateFareUnknownType() {
     Date inTime = new Date();
     inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
     Date outTime = new Date();
@@ -84,6 +88,7 @@ public class FareCalculatorServiceTest {
     assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket));
   }
 
+  @DisplayName("Calculate Fare Bike With Future in Time")
   @Test
   public void calculateFareBikeWithFutureInTime() {
     Date inTime = new Date();
@@ -99,6 +104,7 @@ public class FareCalculatorServiceTest {
     assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
   }
 
+  @DisplayName("Calculate Fare Bike With Less Than One Hour Parking Time")
   @Test
   public void calculateFareBikeWithLessThanOneHourParkingTime() {
     Date inTime = new Date();
@@ -117,6 +123,7 @@ public class FareCalculatorServiceTest {
         RoundingMode.HALF_EVEN)), ticket.getPrice());
   }
 
+  @DisplayName("Calculate Fare Car With Less Than One Hour Parking Time")
   @Test
   public void calculateFareCarWithLessThanOneHourParkingTime() {
     Date inTime = new Date();
@@ -137,6 +144,7 @@ public class FareCalculatorServiceTest {
         ticket.getPrice());
   }
 
+  @DisplayName("Calculate Fare Car With More Than One Day Parking Time")
   @Test
   public void calculateFareCarWithMoreThanOneDayParkingTime() {
     Date inTime = new Date();
@@ -156,6 +164,7 @@ public class FareCalculatorServiceTest {
   }
 
   // free parking less than 30 minutes
+  @DisplayName("Calculate Fare Bike With Less Than half An Hour Parking Time")
   @Test
   public void calculateFareBikeWithLessThanhalfAnHourParkingTime() {
     Date inTime = new Date();
@@ -173,6 +182,7 @@ public class FareCalculatorServiceTest {
     assertEquals(free.setScale(2, RoundingMode.HALF_EVEN), ticket.getPrice());
   }
 
+  @DisplayName("Calculate Fare Car With Less Than half An Hour Parking Time")
   @Test
   public void calculateFareCarWithLessThanhalfAnHourParkingTime() {
     Date inTime = new Date();
@@ -191,6 +201,7 @@ public class FareCalculatorServiceTest {
   }
 
   // 5% recurring user reduction
+  @DisplayName("Calculate Fare Bike Recurrent")
   @Test
   public void calculateFareBikeRecurrent() {
     Date inTime = new Date();
@@ -209,6 +220,7 @@ public class FareCalculatorServiceTest {
         RoundingMode.HALF_EVEN)), ticket.getPrice());
   }
 
+  @DisplayName("Calculate Fare Car Recurrent")
   @Test
   public void calculateFareCarRecurrent() {
     Date inTime = new Date();
