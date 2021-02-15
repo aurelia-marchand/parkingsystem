@@ -3,8 +3,8 @@ package com.parkit.parkingsystem.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.parkit.parkingsystem.dao.ParkingSpotDao;
-import com.parkit.parkingsystem.dao.TicketDao;
+import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
 public class InteractiveShell {
@@ -20,8 +20,8 @@ public class InteractiveShell {
 
     boolean continueApp = true;
     InputReaderUtil inputReaderUtil = new InputReaderUtil();
-    ParkingSpotDao parkingSpotDao = new ParkingSpotDao();
-    TicketDao ticketDao = new TicketDao();
+    ParkingSpotDAO parkingSpotDao = new ParkingSpotDAO();
+    TicketDAO ticketDao = new TicketDAO();
     ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDao, ticketDao);
 
     while (continueApp) {

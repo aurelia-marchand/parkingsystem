@@ -17,8 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.parkit.parkingsystem.constants.Fare;
-import com.parkit.parkingsystem.dao.ParkingSpotDao;
-import com.parkit.parkingsystem.dao.TicketDao;
+import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
@@ -31,8 +31,8 @@ public class ParkingDataBaseIT {
 
   private static ParkingService parkingService;
   private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
-  private static ParkingSpotDao parkingSpotDAO;
-  private static TicketDao ticketDAO;
+  private static ParkingSpotDAO parkingSpotDAO;
+  private static TicketDAO ticketDAO;
   private static DataBasePrepareService dataBasePrepareService;
 
   @Mock
@@ -40,9 +40,9 @@ public class ParkingDataBaseIT {
 
   @BeforeAll
   private static void setUp() throws Exception {
-    parkingSpotDAO = new ParkingSpotDao();
+    parkingSpotDAO = new ParkingSpotDAO();
     parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
-    ticketDAO = new TicketDao();
+    ticketDAO = new TicketDAO();
     ticketDAO.dataBaseConfig = dataBaseTestConfig;
     
   }

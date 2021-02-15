@@ -14,7 +14,7 @@ import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 
-public class TicketDao {
+public class TicketDAO {
 
   private static final Logger logger = LogManager.getLogger("TicketDAO");
 

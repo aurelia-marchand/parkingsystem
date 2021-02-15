@@ -11,8 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.parkit.parkingsystem.dao.ParkingSpotDao;
-import com.parkit.parkingsystem.dao.TicketDao;
+import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.Ticket;
@@ -22,14 +22,14 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 @ExtendWith(MockitoExtension.class)
 class ParkingSpotDaoIT {
 
-  private static ParkingSpotDao parkingSpotDAO;
+  private static ParkingSpotDAO parkingSpotDAO;
 
   private static ParkingService parkingService;
 
   @Mock
   private static InputReaderUtil inputReaderUtil;
 
-  private static TicketDao ticketDAO;
+  private static TicketDAO ticketDAO;
 
   private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 
@@ -37,9 +37,9 @@ class ParkingSpotDaoIT {
 
   @BeforeAll
   private static void setUp() throws Exception {
-    parkingSpotDAO = new ParkingSpotDao();
+    parkingSpotDAO = new ParkingSpotDAO();
     parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
-    ticketDAO = new TicketDao();
+    ticketDAO = new TicketDAO();
     ticketDAO.dataBaseConfig = dataBaseTestConfig;
 
   }

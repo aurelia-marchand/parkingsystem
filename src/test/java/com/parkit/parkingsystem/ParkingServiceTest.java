@@ -16,8 +16,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.ParkingSpotDao;
-import com.parkit.parkingsystem.dao.TicketDao;
+import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
@@ -31,9 +31,9 @@ public class ParkingServiceTest {
   @Mock
   private static InputReaderUtil inputReaderUtil;
   @Mock
-  private static ParkingSpotDao parkingSpotDAO;
+  private static ParkingSpotDAO parkingSpotDAO;
   @Mock
-  private static TicketDao ticketDAO;
+  private static TicketDAO ticketDAO;
 
   @BeforeEach
   private void setUpPerTest() {
